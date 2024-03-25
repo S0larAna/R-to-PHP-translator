@@ -1,0 +1,25 @@
+# Define a function to calculate factorial
+calculateFactorial <- function(n) {
+  # Base case: if n is 0 or 1
+  if(n == 0 | n == 1) {
+    return(1)
+  } else {
+    # Recursive case: n * factorial of n-1
+    return(n * calculateFactorial(n-1))
+  }
+}
+
+# Variables and Data Types
+number <- 5 # Integer variable
+
+# Operators
+# Here, the assignment operator (<-) is used to assign values to variables.
+
+# Control Structures
+# The if-else statement in the function is a control structure.
+
+# Function call
+factorialResult <- calculateFactorial(number)
+
+# Print the result
+print(paste("The factorial of", number, "is:", factorialResult))
