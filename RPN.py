@@ -217,13 +217,14 @@ def infix_to_postfix(t):
             elif t[i] == 'R10':
                 end_count += 1
                 proc_level = begin_count - end_count + 1
-                while stack[-1] != 'R9':
+                while stack and stack[-1] != 'R9':
                     out_seq += stack.pop() + ' '
-                stack.pop()
-                if len(stack) > 0 and re.match(r'^PROC', stack[-1]):
+                if stack:
+                    stack.pop()
+                if len(stack) > 0 and stack and re.match(r'^PROC', stack[-1]):
                     stack.pop()
                     out_seq += 'КП '
-                if if_count > 0 and re.match(r'^if М\d+$', stack[-1]):
+                if if_count > 0 and stack and re.match(r'^if М\d+$', stack[-1]):
                     tag = re.search('М\d+', stack[-1]).group(0)
                     j = i + 1
                     while j < len(t) and t[j] == '\n':
@@ -282,6 +283,7 @@ def infix_to_postfix(t):
     while len(stack) > 0:
         out_seq += stack.pop() + ' '
     print(out_seq)
+    return out_seq
 
 test_tokens = '''I1 R1 O21 R1 W14 R2 I2 R3 R1 R9 R8
 R1 R1 R1 R1 W3 R2 I2 R1 O9 R1 C1 R1 O18 R1 I2 R1 O9 R1 C2 R3 R1 R9 R8

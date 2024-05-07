@@ -1,6 +1,24 @@
+import re
+
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from lexicalAnalyzer import *
+from reversePolishNotation import *
 from PyQt5 import uic
+
+test_tokens = '''I1 R1 O21 R1 W14 R2 I2 R3 R1 R9 R8
+R1 R1 R1 R1 W3 R2 I2 R1 O9 R1 C1 R1 O18 R1 I2 R1 O9 R1 C2 R3 R1 R9 R8
+R1 R1 R1 R1 W13 R2 C2 R3 R8
+R1 R1 R10 R1 W4 R1 R9 R8
+R1 R1 R1 R1 R1 R1 R1 R1 W13 R2 I2 R1 O3 R1 I1 R2 I2 R5 C2 R3 R3 R8 
+R1 R1 R10 R8
+R10 R8
+R8
+I3 R1 O21 R1 C3 R1 R8
+R8 
+R8 
+I4 R1 O21 R1 I1 R2 I3 R3 R8 
+R8 
+W5 R2 W11 R2 '''
 
 
 class MyMainWindow(QMainWindow):
@@ -15,11 +33,17 @@ class MyMainWindow(QMainWindow):
         self.idTable.clearContents()
         self.constTable.clearContents()
         self.tokensOutput.setPlainText('')
+        self.rpnOutput.setPlainText('')
 
         input = self.inputProgram.toPlainText()
         output, constants, identificators = analyze(input)
+        output = re.sub(r'\n', r'', output)
         self.tokensOutput.insertPlainText(output)
         self.populate_tables(identificators, constants)
+
+        postfix = infix_to_postfix(output.split())
+        self.rpnOutput.insertPlainText(postfix)
+
 
     def populate_tables(self, identificators, constants):
         self.idTable.setRowCount(len(identificators))

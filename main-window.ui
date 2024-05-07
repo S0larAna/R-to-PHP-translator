@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>785</width>
+    <width>974</width>
     <height>865</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>761</width>
+      <width>951</width>
       <height>401</height>
      </rect>
     </property>
@@ -41,7 +41,7 @@ border-color: rgb(0, 0, 0);</string>
       <rect>
        <x>20</x>
        <y>30</y>
-       <width>341</width>
+       <width>281</width>
        <height>361</height>
       </rect>
      </property>
@@ -49,9 +49,9 @@ border-color: rgb(0, 0, 0);</string>
     <widget class="QTextEdit" name="tokensOutput">
      <property name="geometry">
       <rect>
-       <x>390</x>
+       <x>320</x>
        <y>30</y>
-       <width>341</width>
+       <width>291</width>
        <height>361</height>
       </rect>
      </property>
@@ -72,7 +72,7 @@ border-color: rgb(0, 0, 0);</string>
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>390</x>
+       <x>320</x>
        <y>10</y>
        <width>241</width>
        <height>16</height>
@@ -80,6 +80,29 @@ border-color: rgb(0, 0, 0);</string>
      </property>
      <property name="text">
       <string>Результат работы лексического анализатора</string>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="rpnOutput">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>30</y>
+       <width>291</width>
+       <height>361</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>10</y>
+       <width>241</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Обратная польская запись</string>
      </property>
     </widget>
    </widget>
@@ -193,7 +216,7 @@ border-color: rgb(0, 0, 0);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>785</width>
+     <width>974</width>
      <height>21</height>
     </rect>
    </property>

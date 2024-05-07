@@ -175,9 +175,12 @@ def analyze(input_program):
                 CONSTANTS[buffer] = const_id
                 output_sequence += 'C' + str(CONSTANTS[buffer]) + ' '
     return output_sequence, CONSTANTS, IDENTIFIERS
-
+'''function(a, b, c) { d = a + b
+ e = c * d }'''
 
 if __name__ == '__main__':
     input_program = read_file_contents("./input.txt")
-    analyze(input_program)
+    input_program = '''function(a, b, c) { d = a + b
+ e = c * d }'''
+    print(analyze(input_program))
 
