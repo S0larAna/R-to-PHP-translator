@@ -89,10 +89,18 @@ class MPAutomaton:
 
 
     def process_token(self, token):
-        if isidentifier(token) or isconstant(token):
+        if isidentifier(token) or isconstant(token) or (token[0] == 'M'):
             self.stack.append(token)
         elif token.endswith('Ф'):
             self.handle_function_call(token)
+        elif token == 'УПЛ':
+            self.handle_conditional_jump()
+        elif token == 'БП':
+            self.handle_unconditional_jump()
+        elif token.endswith(':'):
+            self.handle_label(token)
+        elif token.endswith('АЭМ'):
+            self.handle_array_access(token)
         else:
             self.handle_operation(token)
 
@@ -108,6 +116,22 @@ class MPAutomaton:
         self.output.append(f'{self.STR} {result} = {func_name}({", ".join(args)}) ; \n')
         self.STR += 1
         self.stack.append(result)
+
+    def handle_conditional_jump(self):
+        label = self.stack.pop()
+        condition = self.stack.pop()
+        self.output.append(f'{self.STR} if ({condition}) {{ \n')
+        self.STR += 1
+
+    def handle_unconditional_jump(self):
+        label = self.stack.pop()
+        self.output.append(f'{self.STR} else {{ \n')
+        self.STR += 1
+
+    def handle_label(self, token):
+        label = token[:-1]
+        self.output.append(f'{self.STR} {label}: }}; \n')
+        self.STR += 1
 
     def handle_operation(self, operation):
         if operation == 'O21':
@@ -127,14 +151,11 @@ class MPAutomaton:
         elif operation == 'КО':
             self.output.append(f'{self.STR}' + '}\n')
             self.STR += 1
+        elif operation == 'W5':
+            self.output.append(f'{self.STR} print ({self.stack.pop()})' + ' ;\n')
+            self.STR += 1
         elif get_operation(operation)!=-1:
             self.handle_arithmetic(operation)
-        # elif operation != -1:
-        #     print(self.output)
-        #     value = self.stack.pop()
-        #     variable = self.stack.pop()
-        #     self.output.append(f'{value} {operation} {variable} ; \n')
-        # Добавьте обработку других операций и операторов по мере необходимости
 
     def handle_arithmetic(self, operation):
         operation = get_operation(operation)
@@ -155,9 +176,20 @@ class MPAutomaton:
             self.output.append(f'{self.STR} ${variable} = {value}; \n')
             self.STR += 1
 
+    def handle_array_access(self, token):
+        num_operands = int(token[:-3])
+        indices = [self.stack.pop() for _ in range(num_operands)]
+        array_name = self.stack.pop()
+        indices.reverse()
+        index_str = ''.join([f'[{index}]' for index in indices])
+        result = f'{array_name}{index_str}'
+        self.stack.append(result)
+
     def translate(self, rpn_tokens):
         for token in rpn_tokens:
             self.process_token(token)
+        for label in self.label_table.values():
+            self.output.insert(label, '}')
         return self.output
 
 # Пример использования
