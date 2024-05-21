@@ -34,13 +34,14 @@ DELIMITERS = {
     '(': 2,
     ')': 3,
     ',': 4,
-    '-': 5,
+    #'-': 5,
     '[': 6,
     ']': 7,
     '\n': 8,  # Предполагается, что "конец строки" это перевод строки
     '{': 9,
-    '}': 10 ,
-    ':': 11
+    '}': 10,
+    ':': 11,
+    ';': 12
 }
 
 # CONSTANTS = {
@@ -85,6 +86,9 @@ def analyze(input_program):
             if symbol.isalpha():
                 buffer+=symbol
                 state = 'q1'
+            elif symbol == "\'" or symbol == '\"':
+                buffer+=symbol
+                state = 'q6'
             elif symbol.isalnum():
                 buffer+=symbol
                 state = 'q3'
@@ -164,6 +168,13 @@ def analyze(input_program):
         elif state == 'q5':
             buffer+=symbol
             if symbol == '\n':
+                state = 'S'
+        elif state == 'q6':
+            buffer+=symbol
+            if symbol == '\'' or symbol == '\"':
+                const_id += 1
+                CONSTANTS[buffer] = const_id
+                output_sequence += 'C' + str(CONSTANTS[buffer]) + ' '
                 state = 'S'
         i += 1
     if not(buffer == ''):

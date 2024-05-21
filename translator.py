@@ -152,7 +152,7 @@ class MPAutomaton:
             self.output.append(f'' + '}\n')
             self.STR += 1
         elif operation == 'W5':
-            self.output.append(f'print ({self.stack.pop()})' + ' ;\n')
+            self.output.append(f'print {self.stack.pop()}' + ' ;\n')
             self.STR += 1
         elif get_operation(operation)!=-1:
             self.handle_arithmetic(operation)

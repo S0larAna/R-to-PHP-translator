@@ -22,4 +22,4 @@ number <- 5 # Integer variable
 factorialResult <- calculateFactorial(number)
 
 # Print the result
-print(paste("The factorial of", number, "is:", factorialResult))
+print(factorialResult)

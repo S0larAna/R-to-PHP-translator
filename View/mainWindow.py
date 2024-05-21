@@ -5,6 +5,7 @@ from lexicalAnalyzer import *
 from reversePolishNotation import *
 from PyQt5 import uic
 from translator import *
+from syntaxAnalyser import Tokenizer, Parser
 
 test_tokens = '''I1 R1 O21 R1 W14 R2 I2 R3 R1 R9 R8
 R1 R1 R1 R1 W3 R2 I2 R1 O9 R1 C1 R1 O18 R1 I2 R1 O9 R1 C2 R3 R1 R9 R8
@@ -58,16 +59,23 @@ class MyMainWindow(QMainWindow):
         output = re.sub(r'\n', r'', output)
         self.tokensOutput.insertPlainText(output)
         self.populate_tables(identificators, constants)
-
-        postfix = infix_to_postfix(output.split())
-        self.rpnOutput.insertPlainText(postfix)
-        rpn_tokens = postfix.split()
-        mp_automaton = MPAutomaton()
-        output = mp_automaton.translate(rpn_tokens)
-        output = ' '.join(output)
-        output = replace_identifiers(output, identificators)
-        output = replace_constants(output, constants)
-        self.phpOutput.insertPlainText(output)
+        tokenizer = Tokenizer(output)
+        parser = Parser(tokenizer)
+        errors = parser.program()
+        if errors:
+            errors = '\n'.join(errors)
+            self.syntaxAnalyser.insertPlainText(errors)
+        else:
+            self.syntaxAnalyser.insertPlainText('Parsing finished successfully')
+            postfix = infix_to_postfix(output.split())
+            self.rpnOutput.insertPlainText(postfix)
+            rpn_tokens = postfix.split()
+            mp_automaton = MPAutomaton()
+            output = mp_automaton.translate(rpn_tokens)
+            output = ' '.join(output)
+            output = replace_identifiers(output, identificators)
+            output = replace_constants(output, constants)
+            self.phpOutput.insertPlainText(output)
 
 
 

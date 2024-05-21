@@ -145,9 +145,9 @@ border-color: rgb(0, 0, 0);</string>
    <widget class="QFrame" name="frame_3">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>460</y>
-      <width>761</width>
+      <x>670</x>
+      <y>440</y>
+      <width>461</width>
       <height>361</height>
      </rect>
     </property>
@@ -232,6 +232,29 @@ border-color: rgb(0, 0, 0);</string>
       <string>Таблица констант</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QTextEdit" name="syntaxAnalyser">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>480</y>
+      <width>631</width>
+      <height>301</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>460</y>
+      <width>171</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Синтаксический анализатор</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
