@@ -113,24 +113,24 @@ class MPAutomaton:
         func_name = self.stack.pop()
         result = f'TEMP{self.P}'
         self.P += 1
-        self.output.append(f'{self.STR} {result} = {func_name}({", ".join(args)}) ; \n')
+        self.output.append(f'{result} = {func_name}({", ".join(args)}) ; \n')
         self.STR += 1
         self.stack.append(result)
 
     def handle_conditional_jump(self):
         label = self.stack.pop()
         condition = self.stack.pop()
-        self.output.append(f'{self.STR} if ({condition}) {{ \n')
+        self.output.append(f'if ({condition}) {{ \n')
         self.STR += 1
 
     def handle_unconditional_jump(self):
         label = self.stack.pop()
-        self.output.append(f'{self.STR} else {{ \n')
+        self.output.append(f'else {{ \n')
         self.STR += 1
 
     def handle_label(self, token):
         label = token[:-1]
-        self.output.append(f'{self.STR} {label}: }}; \n')
+        self.output.append(f'{label}: }}; \n')
         self.STR += 1
 
     def handle_operation(self, operation):
@@ -139,20 +139,20 @@ class MPAutomaton:
         elif operation == 'НП':
             param = self.stack.pop()
             func_name = self.stack.pop()
-            self.output.append(f'{self.STR} function {func_name}({param})' + ' {\n')
+            self.output.append(f'function {func_name}({param})' + ' {\n')
             self.STR += 1
             self.procedure_mode =True
         elif operation == 'W13':
-            self.output.append(f'{self.STR} return\n')
+            self.output.append(f'return\n')
             self.STR += 1
         elif operation == 'КП':
-            self.output.append(f'{self.STR} return {self.stack.pop()} ; \n')
+            self.output.append(f'return {self.stack.pop()} ; \n')
             self.STR += 1
         elif operation == 'КО':
-            self.output.append(f'{self.STR}' + '}\n')
+            self.output.append(f'' + '}\n')
             self.STR += 1
         elif operation == 'W5':
-            self.output.append(f'{self.STR} print ({self.stack.pop()})' + ' ;\n')
+            self.output.append(f'print ({self.stack.pop()})' + ' ;\n')
             self.STR += 1
         elif get_operation(operation)!=-1:
             self.handle_arithmetic(operation)
@@ -163,7 +163,7 @@ class MPAutomaton:
         operand1 = self.stack.pop()
         result = f'TEMP{self.P}'
         self.P += 1
-        self.output.append(f'{self.STR} {result} = {operand1} {operation} {operand2} ; \n')
+        self.output.append(f'{result} = {operand1} {operation} {operand2} ; \n')
         self.STR += 1
         self.stack.append(result)
 
@@ -173,7 +173,7 @@ class MPAutomaton:
         else:
             value = self.stack.pop()
             variable = self.stack.pop()
-            self.output.append(f'{self.STR} ${variable} = {value}; \n')
+            self.output.append(f'${variable} = {value}; \n')
             self.STR += 1
 
     def handle_array_access(self, token):
