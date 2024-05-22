@@ -23,3 +23,13 @@ factorialResult <- calculateFactorial(number)
 
 # Print the result
 print(factorialResult)
+
+
+x <- 10
+y <- 20
+
+# Функция
+sum <- function(a, b) {
+  result <- a + b
+  return(result)
+}

@@ -53,6 +53,7 @@ class MyMainWindow(QMainWindow):
         self.tokensOutput.setPlainText('')
         self.rpnOutput.setPlainText('')
         self.phpOutput.setPlainText('')
+        self.syntaxAnalyser.setPlainText('')
 
         input = self.inputProgram.toPlainText()
         output, constants, identificators = analyze(input)

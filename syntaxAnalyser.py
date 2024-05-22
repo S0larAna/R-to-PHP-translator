@@ -30,7 +30,9 @@ class Parser:
         self.errors.append(f"Syntax error: {message} {self.current_token} ")
 
     def eat(self, token_type):
-        if self.current_token == token_type:
+        if self.current_token is None:
+            return
+        elif self.current_token == token_type:
             self.current_token = self.tokenizer.next_token()
         else:
             self.error(f"Expected {token_type}, got {self.current_token}")
@@ -116,7 +118,8 @@ class Parser:
             self.error(f"Expected <- for assignment")
         if self.current_token == 'W14':
             self.function_definition()
-        self.expression()
+        else:
+            self.expression()
 
     def block(self):
         self.eat('R9')
@@ -157,6 +160,12 @@ class Parser:
                     self.error("Expected identifier")
                 self.eat(self.current_token)
                 self.statement()
+            else:
+                while self.current_token in ['O1', 'O2', 'O3', 'O4', 'O5', 'O6', 'O7', 'O8', 'O11', 'O12', 'O9', 'O10',
+                                             'O13', 'O14', 'O16',
+                                             'O17', 'O18', 'O19', 'O20', 'O22', 'O23', 'W14']:
+                    self.eat(self.current_token)
+                    self.term()
         elif self.current_token == 'W14':
             self.eat(self.current_token)
         else:
